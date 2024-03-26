@@ -1,6 +1,9 @@
 import streamlit as st
 from datetime import datetime, timedelta
 
+@st.cache(allow_output_mutation=True)
+def get_tasks():
+    return []
 
 st.set_page_config(
     page_title="Hagliberto", 
@@ -33,6 +36,9 @@ st.markdown(
 )
 
 
+import streamlit as st
+from datetime import datetime, timedelta
+
 def get_tasks():
     if "tasks" not in st.session_state:
         st.session_state.tasks = []
@@ -44,7 +50,7 @@ def add_task(new_task, label, description, deadline):
         tasks.append({"task": new_task, "label": label, "description": description, "deadline": deadline, "done": False})
         st.session_state.tasks = tasks
         st.success("Tarefa adicionada com sucesso!")
-        st.experimental_rerun()  # Recarrega a página após adicionar a tarefa
+        st.rerun()  # Recarrega a página após adicionar a tarefa
     else:
         st.warning("Por favor, insira uma tarefa válida.")
 
@@ -53,7 +59,7 @@ def delete_task(index):
     del tasks[index]
     st.session_state.tasks = tasks
     st.success("Tarefa excluída com sucesso!")
-    st.experimental_rerun()  # Recarrega a página após excluir a tarefa
+    st.rerun()  # Recarrega a página após excluir a tarefa
 
 def edit_task(index, updated_task, updated_label, updated_description, updated_deadline):
     tasks = get_tasks()
@@ -63,7 +69,7 @@ def edit_task(index, updated_task, updated_label, updated_description, updated_d
     tasks[index]["deadline"] = updated_deadline
     st.session_state.tasks = tasks
     st.success("Tarefa atualizada com sucesso!")
-    st.experimental_rerun()  # Recarrega a página após editar a tarefa
+    st.rerun()  # Recarrega a página após editar a tarefa
 
 def toggle_task_status(index):
     tasks = get_tasks()
@@ -73,11 +79,9 @@ def toggle_task_status(index):
         st.success("Tarefa marcada como concluída!")
     else:
         st.info("Tarefa marcada como não concluída.")
-    st.experimental_rerun()  # Recarrega a página após alterar o status da tarefa
+    st.rerun()  # Recarrega a página após alterar o status da tarefa
 
 def main():
-    
-    
     # Adicionar funcionalidade para editar e excluir tarefa
     col1, col2= st.columns([1, 1])
                   
@@ -138,7 +142,8 @@ def main():
                     with col3:
                         if st.button("🆙 `Salvar`", key=f"save_{idx}"):
                             edit_task(idx, edited_task, edited_label, edited_description, edited_deadline)
-                            del item["editing"]
+                            if "editing" in item:
+                                del item["editing"]  # Remover chave "editing" após salvar
                 else:
                     with col2:
                         pass  # Apenas para ajustar o layout
@@ -148,3 +153,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
