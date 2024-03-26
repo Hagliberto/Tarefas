@@ -44,10 +44,10 @@ def main():
         with col2:
             deadline = st.date_input("Prazo:", format="DD/MM/YYYY")
 
-    description = st.text_area("Descrição:")
-    label = st.text_input("🔗 Link da atividade:")
-    if st.button("`Adicionar`"):
-        add_task(tasks, new_task, label, description, deadline)
+        description = st.text_area("Descrição:")
+        label = st.text_input("🔗 Link da atividade:")
+        if st.button("`Adicionar`"):
+            add_task(tasks, new_task, label, description, deadline)
 
     # Ordenar a lista de tarefas por data de prazo (em ordem decrescente)
     sorted_tasks = sorted(tasks, key=lambda x: x["deadline"], reverse=True)
