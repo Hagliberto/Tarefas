@@ -30,7 +30,7 @@ def toggle_task_status(task_list, index):
         st.info("Tarefa marcada como não concluída.")
 
 def main():
-    st.title("Gerenciador de Atividades")
+    st.success("Gerenciador de Atividades")
 
     # Inicializar a lista de tarefas
     if 'tasks' not in st.session_state:
