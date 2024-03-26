@@ -37,7 +37,7 @@ def main():
         st.session_state.tasks = []
 
     # Expander para adicionar nova tarefa
-    with st.expander("Adicionar Tarefa", expanded=True):
+    with st.expander("Adicionar Tarefa", expanded=False):
         new_task = st.text_input("Atividade")
         label = st.text_input("🔗 Link da atividade:")
         description = st.text_area("Descrição:")
