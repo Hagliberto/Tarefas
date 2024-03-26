@@ -70,31 +70,31 @@ def main():
                 st.write(f"Link da atividade: {label}")
                 st.write(f"Descrição: {description}")
     
-    # Adicionar funcionalidade para editar e excluir tarefa
-    col1, col2, col3, col4 = st.columns([0.15, 0.5, 0.15, 0.2])
-    with col1:
-        if st.button("✏️", key=f"edit_{idx}"):
-            sorted_tasks[idx]["editing"] = True
-            sorted_tasks[idx]["edited_task"] = sorted_tasks[idx]["task"]
-            sorted_tasks[idx]["edited_label"] = sorted_tasks[idx]["label"]
-            sorted_tasks[idx]["edited_description"] = sorted_tasks[idx]["description"]
-            sorted_tasks[idx]["edited_deadline"] = sorted_tasks[idx]["deadline"]
-    if "editing" in sorted_tasks[idx] and sorted_tasks[idx]["editing"]:
-        with col2:
-            edited_task = st.text_input("Editar Tarefa:", value=sorted_tasks[idx]["edited_task"])
-            edited_label = st.text_input("Editar Link da atividade:", value=sorted_tasks[idx]["edited_label"])
-            edited_description = st.text_area("Editar Descrição:", value=sorted_tasks[idx]["edited_description"])
-            edited_deadline = st.date_input("Editar Prazo:", value=datetime.strptime(str(sorted_tasks[idx]["edited_deadline"]), '%Y-%m-%d'), format="DD/MM/YYYY")
-        with col3:
-            if st.button("Salvar", key=f"save_{idx}"):
-                edit_task(sorted_tasks, idx, edited_task, edited_label, edited_description, edited_deadline)
-                sorted_tasks[idx]["editing"] = False
-    else:
-        with col2:
-            pass  # Apenas para ajustar o layout
-    with col4:
-        if st.button("❌", key=f"delete_{idx}"):
-            delete_task(tasks, idx)  # Remover a tarefa original
+            # Adicionar funcionalidade para editar e excluir tarefa
+            col1, col2, col3, col4 = st.columns([0.15, 0.5, 0.15, 0.2])
+            with col1:
+                if st.button("✏️", key=f"edit_{idx}"):
+                    sorted_tasks[idx]["editing"] = True
+                    sorted_tasks[idx]["edited_task"] = sorted_tasks[idx]["task"]
+                    sorted_tasks[idx]["edited_label"] = sorted_tasks[idx]["label"]
+                    sorted_tasks[idx]["edited_description"] = sorted_tasks[idx]["description"]
+                    sorted_tasks[idx]["edited_deadline"] = sorted_tasks[idx]["deadline"]
+            if "editing" in sorted_tasks[idx] and sorted_tasks[idx]["editing"]:
+                with col2:
+                    edited_task = st.text_input("Editar Tarefa:", value=sorted_tasks[idx]["edited_task"])
+                    edited_label = st.text_input("Editar Link da atividade:", value=sorted_tasks[idx]["edited_label"])
+                    edited_description = st.text_area("Editar Descrição:", value=sorted_tasks[idx]["edited_description"])
+                    edited_deadline = st.date_input("Editar Prazo:", value=datetime.strptime(str(sorted_tasks[idx]["edited_deadline"]), '%Y-%m-%d'), format="DD/MM/YYYY")
+                with col3:
+                    if st.button("Salvar", key=f"save_{idx}"):
+                        edit_task(sorted_tasks, idx, edited_task, edited_label, edited_description, edited_deadline)
+                        sorted_tasks[idx]["editing"] = False
+            else:
+                with col2:
+                    pass  # Apenas para ajustar o layout
+            with col4:
+                if st.button("❌", key=f"delete_{idx}"):
+                    delete_task(tasks, idx)  # Remover a tarefa original
     
 if __name__ == "__main__":
     main()
