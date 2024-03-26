@@ -8,9 +8,9 @@ def get_tasks():
 st.set_page_config(
     page_title="Hagliberto", 
     page_icon="♾️",
-layout="wide",
-initial_sidebar_state="expanded",
-menu_items={"About": "`Página inicial:`🌍 https://hagliberto.streamlit.app/"}  
+    layout="wide",
+    initial_sidebar_state="expanded",
+    menu_items={"About": "`Página inicial:`🌍 https://hagliberto.streamlit.app/"}  
 )
 
 # Definindo o estilo CSS para o rodapé
@@ -35,9 +35,6 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-
-import streamlit as st
-from datetime import datetime, timedelta
 
 def get_tasks():
     if "tasks" not in st.session_state:
@@ -114,7 +111,8 @@ def main():
             description = item["description"]
             deadline = item["deadline"]
             expander_title = f"Tarefa: {task} (Prazo para realizar: {deadline.strftime('%d/%m/%Y')})"
-            with st.expander(expander_title, expanded=False):
+            with st.expander(expander_title, expanded=False
+):
                 checkbox = st.checkbox(f"`Concluído` {task}", value=done, key=f"checkbox_{idx}")
                 if checkbox:
                     toggle_task_status(idx)
@@ -127,7 +125,7 @@ def main():
                 col1, col2, col3, col4 = st.columns([0.5, 0.15, 0.15, 0.15])
                   
                 with col2:
-                    if st.button("✏️ `Editar`", key=f"edit_{idx}"):
+                    if st.button("✏️ `Editar`", key=f"edit_{idx}_{task}"):  # Alterada a chave aqui
                         item["editing"] = True
                         item["edited_task"] = task
                         item["edited_label"] = label
@@ -144,6 +142,7 @@ def main():
                             edit_task(idx, edited_task, edited_label, edited_description, edited_deadline)
                             if "editing" in item:
                                 del item["editing"]  # Remover chave "editing" após salvar
+
                 else:
                     with col2:
                         pass  # Apenas para ajustar o layout
@@ -153,4 +152,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
