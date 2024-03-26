@@ -142,7 +142,6 @@ def main():
                             edit_task(idx, edited_task, edited_label, edited_description, edited_deadline)
                             if "editing" in item:
                                 del item["editing"]  # Remover chave "editing" após salvar
-
                 else:
                     with col2:
                         pass  # Apenas para ajustar o layout
