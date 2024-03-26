@@ -38,12 +38,16 @@ def main():
 
     # Expander para adicionar nova tarefa
     with st.expander("Adicionar Tarefa", expanded=False):
-        new_task = st.text_input("Atividade")
-        label = st.text_input("🔗 Link da atividade:")
-        description = st.text_area("Descrição:")
-        deadline = st.date_input("Prazo:")
-        if st.button("`Adicionar`"):
-            add_task(tasks, new_task, label, description, deadline)
+        col1, col2 = st.columns([1, 1])
+        with col1:
+            new_task = st.text_input("Atividade")
+        with col2:
+            deadline = st.date_input("Prazo:", format="DD/MM/YYYY")
+
+    description = st.text_area("Descrição:")
+    label = st.text_input("🔗 Link da atividade:")
+    if st.button("`Adicionar`"):
+        add_task(tasks, new_task, label, description, deadline)
 
     # Ordenar a lista de tarefas por data de prazo (em ordem decrescente)
     sorted_tasks = sorted(tasks, key=lambda x: x["deadline"], reverse=True)
@@ -55,7 +59,7 @@ def main():
         label = item["label"]
         description = item["description"]
         deadline = item["deadline"]
-        expander_title = f"Tarefa: {task} (Prazo: {deadline})"
+        expander_title = f"Tarefa: {task} (Prazo: {deadline.strftime('%d/%m/%Y')})"
         with st.expander(expander_title, expanded=False):
             checkbox = st.checkbox(f"Concluído", key=idx, value=done)
             if checkbox:
@@ -64,7 +68,6 @@ def main():
             # Exibir informações da tarefa dentro do expander
             st.write(f"Link da atividade: {label}")
             st.write(f"Descrição: {description}")
-            st.write(f"Prazo: {deadline}")
 
             # Adicionar funcionalidade para editar e excluir tarefa
             col1, col2, col3, col4 = st.columns([0.15, 0.5, 0.15, 0.2])
@@ -80,7 +83,7 @@ def main():
                     edited_task = st.text_input("Editar Tarefa:", value=sorted_tasks[idx]["edited_task"])
                     edited_label = st.text_input("Editar Link da atividade:", value=sorted_tasks[idx]["edited_label"])
                     edited_description = st.text_area("Editar Descrição:", value=sorted_tasks[idx]["edited_description"])
-                    edited_deadline = st.date_input("Editar Prazo:", value=datetime.strptime(str(sorted_tasks[idx]["edited_deadline"]), '%Y-%m-%d'))
+                    edited_deadline = st.date_input("Editar Prazo:", value=datetime.strptime(str(sorted_tasks[idx]["edited_deadline"]), '%Y-%m-%d'), format="DD/MM/YYYY")
                 with col3:
                     if st.button("Salvar", key=f"save_{idx}"):
                         edit_task(sorted_tasks, idx, edited_task, edited_label, edited_description, edited_deadline)
