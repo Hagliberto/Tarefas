@@ -48,6 +48,7 @@ def add_task(new_task, label, description, deadline):
         tasks.append({"task": new_task, "label": label, "description": description, "deadline": deadline, "done": False})
         st.session_state.tasks = tasks
         st.success("Tarefa adicionada com sucesso!")
+        st.rerun()  # Recarrega a página após adicionar a tarefa
     else:
         st.warning("Por favor, insira uma tarefa válida.")
 
@@ -56,6 +57,7 @@ def delete_task(index):
     del tasks[index]
     st.session_state.tasks = tasks
     st.success("Tarefa excluída com sucesso!")
+    st.rerun()  # Recarrega a página após excluir a tarefa
 
 def edit_task(index, updated_task, updated_label, updated_description, updated_deadline):
     tasks = get_tasks()
@@ -65,6 +67,7 @@ def edit_task(index, updated_task, updated_label, updated_description, updated_d
     tasks[index]["deadline"] = updated_deadline
     st.session_state.tasks = tasks
     st.success("Tarefa atualizada com sucesso!")
+    st.rerun()  # Recarrega a página após editar a tarefa
 
 def toggle_task_status(index):
     tasks = get_tasks()
@@ -73,7 +76,8 @@ def toggle_task_status(index):
     if tasks[index]["done"]:
         st.success("Tarefa marcada como concluída!")
     else:
-        st.info("Tarefa marcada como não concluída!")
+        st.info("Tarefa marcada como não concluída.")
+    st.rerun()  # Recarrega a página após alterar o status da tarefa
 
 def main():
     # Adicionar funcionalidade para editar e excluir tarefa
