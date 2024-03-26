@@ -1,9 +1,10 @@
 import streamlit as st
 from datetime import datetime, timedelta
 
-@st.cache(allow_output_mutation=True)
 def get_tasks():
-    return []
+    if "tasks" not in st.session_state:
+        st.session_state.tasks = []
+    return st.session_state.tasks
 
 st.set_page_config(
     page_title="Hagliberto", 
