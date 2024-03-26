@@ -38,11 +38,11 @@ def main():
 
     # Expander para adicionar nova tarefa
     with st.expander("Adicionar Tarefa", expanded=True):
-        new_task = st.text_input("Nova Tarefa:")
-        label = st.text_input("Rótulo:")
+        new_task = st.text_input("Atividade")
+        label = st.text_input("🔗 Link da atividade:")
         description = st.text_area("Descrição:")
         deadline = st.date_input("Prazo:")
-        if st.button("Adicionar"):
+        if st.button("`Adicionar`"):
             add_task(st.session_state.tasks, new_task, label, description, deadline)
 
     # Ordenar a lista de tarefas por data de prazo (em ordem decrescente)
@@ -62,7 +62,7 @@ def main():
                 toggle_task_status(sorted_tasks, idx)
 
             # Exibir informações da tarefa dentro do expander
-            st.write(f"Rótulo: {label}")
+            st.write(f"Link da atividade: {label}")
             st.write(f"Descrição: {description}")
             st.write(f"Prazo: {deadline}")
 
@@ -78,7 +78,7 @@ def main():
             if "editing" in sorted_tasks[idx] and sorted_tasks[idx]["editing"]:
                 with col2:
                     edited_task = st.text_input("Editar Tarefa:", value=sorted_tasks[idx]["edited_task"])
-                    edited_label = st.text_input("Editar Rótulo:", value=sorted_tasks[idx]["edited_label"])
+                    edited_label = st.text_input("Editar Link da atividade:", value=sorted_tasks[idx]["edited_label"])
                     edited_description = st.text_area("Editar Descrição:", value=sorted_tasks[idx]["edited_description"])
                     edited_deadline = st.date_input("Editar Prazo:", value=datetime.strptime(str(sorted_tasks[idx]["edited_deadline"]), '%Y-%m-%d'))
                 with col3:
