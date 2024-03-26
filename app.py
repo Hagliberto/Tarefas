@@ -1,18 +1,20 @@
 import streamlit as st
 from datetime import datetime
 
+@st.cache(allow_output_mutation=True)
+def get_tasks():
+    return []
+
 def add_task(task_list, new_task, label, description, deadline):
     if new_task.strip() != "":
         task_list.append({"task": new_task, "label": label, "description": description, "deadline": deadline, "done": False})
         st.success("Tarefa adicionada com sucesso!")
-        st.rerun()  # Recarrega a página após adicionar a tarefa
     else:
         st.warning("Por favor, insira uma tarefa válida.")
 
 def delete_task(task_list, index):
     del task_list[index]
     st.success("Tarefa excluída com sucesso!")
-    st.rerun()  # Recarrega a página após excluir a tarefa
 
 def edit_task(task_list, index, updated_task, updated_label, updated_description, updated_deadline):
     task_list[index]["task"] = updated_task
@@ -20,7 +22,6 @@ def edit_task(task_list, index, updated_task, updated_label, updated_description
     task_list[index]["description"] = updated_description
     task_list[index]["deadline"] = updated_deadline
     st.success("Tarefa atualizada com sucesso!")
-    st.rerun()  # Recarrega a página após editar a tarefa
 
 def toggle_task_status(task_list, index):
     task_list[index]["done"] = not task_list[index]["done"]
@@ -30,11 +31,10 @@ def toggle_task_status(task_list, index):
         st.info("Tarefa marcada como não concluída.")
 
 def main():
-    st.success("Gerenciador de Atividades")
+    st.title("Gerenciador de Atividades")
 
     # Inicializar a lista de tarefas
-    if 'tasks' not in st.session_state:
-        st.session_state.tasks = []
+    tasks = get_tasks()
 
     # Expander para adicionar nova tarefa
     with st.expander("Adicionar Tarefa", expanded=False):
@@ -43,10 +43,10 @@ def main():
         description = st.text_area("Descrição:")
         deadline = st.date_input("Prazo:")
         if st.button("`Adicionar`"):
-            add_task(st.session_state.tasks, new_task, label, description, deadline)
+            add_task(tasks, new_task, label, description, deadline)
 
     # Ordenar a lista de tarefas por data de prazo (em ordem decrescente)
-    sorted_tasks = sorted(st.session_state.tasks, key=lambda x: x["deadline"], reverse=True)
+    sorted_tasks = sorted(tasks, key=lambda x: x["deadline"], reverse=True)
 
     # Criar um expander para cada tarefa
     for idx, item in enumerate(sorted_tasks):
@@ -90,7 +90,7 @@ def main():
                     pass  # Apenas para ajustar o layout
             with col4:
                 if st.button("❌", key=f"delete_{idx}"):
-                    delete_task(st.session_state.tasks, st.session_state.tasks.index(item))  # Remover a tarefa original
+                    delete_task(tasks, idx)  # Remover a tarefa original
 
 if __name__ == "__main__":
     main()
