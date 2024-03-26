@@ -141,9 +141,9 @@ def main():
                     with col3:
                         if st.button("🆙 `Salvar`", key=f"save_{idx}"):
                             edit_task(idx, edited_task, edited_label, edited_description, edited_deadline)
-                        if "editing" in item:
+                        elif "editing" in item:
                             del item["editing"]  # Remover chave "editing" após salvar
-                        st.rerun()
+                            st.rerun()
 
                 else:
                     with col2:
