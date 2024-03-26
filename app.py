@@ -143,7 +143,7 @@ def main():
                             edit_task(idx, edited_task, edited_label, edited_description, edited_deadline)
                             if "editing" in item:
                                 del item["editing"]  # Remover chave "editing" após salvar
-                        st.rerun()
+                            st.rerun()
 
                 else:
                     with col2:
